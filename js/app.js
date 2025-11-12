@@ -190,6 +190,9 @@ class TicketingApp {
             case 'create':
                 this.resetCreateForm();
                 break;
+            case 'orders':
+                this.loadOrdersPage();
+                break;
             case 'profile':
                 this.loadProfile();
                 break;
@@ -197,35 +200,27 @@ class TicketingApp {
     }
 
     updateNavigation(activePageId) {
-        // Update navbar
-        document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-            link.classList.remove('active');
-        });
-
         // Update bottom navigation
-        document.querySelectorAll('.fixed-bottom .nav-link').forEach(link => {
+        document.querySelectorAll('.nav-item').forEach(link => {
             link.classList.remove('active');
         });
 
         // Add active class to current page
         const activeNavLinks = document.querySelectorAll(`[onclick*="${activePageId}"]`);
         activeNavLinks.forEach(link => {
-            if (link.classList.contains('nav-link')) {
+            if (link.classList.contains('nav-item')) {
                 link.classList.add('active');
             }
         });
 
-        // Close mobile navbar menu if open
-        const navbarCollapse = document.querySelector('.navbar-collapse');
-        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
-                toggle: false
-            });
-            bsCollapse.hide();
-        }
-
         // Scroll to top when changing pages
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    loadOrdersPage() {
+        // This would typically load orders from an API
+        // For now, the orders are hardcoded in HTML
+        console.log('Orders page loaded');
     }
 
     // Ticket Management

@@ -28,83 +28,85 @@
 </head>
 <body>
     <div class="app-container">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <!-- Modern Header -->
+    <header class="modern-header">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" onclick="showPage('dashboard')">
-                <i class="bi bi-ticket-perforated me-2"></i>
-                TicketApp
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showPage('dashboard')">
-                            <i class="bi bi-house-door"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showPage('tickets')">
-                            <i class="bi bi-list-task"></i> Tickets
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showPage('create')">
-                            <i class="bi bi-plus-circle"></i> Create
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showPage('profile')">
-                            <i class="bi bi-person-circle"></i> Profile
-                        </a>
-                    </li>
-                </ul>
+            <div class="header-content">
+                <h1 class="app-title">
+                    <i class="bi bi-ticket-perforated"></i>
+                    Support Desk
+                </h1>
+                <div class="header-actions">
+                    <div class="notification-badge">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge-count" id="notification-count">3</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </header>
 
     <!-- Dashboard Page -->
     <div id="dashboard-page" class="page active">
-        <div class="container-fluid py-3">
-            <div class="row g-3">
-                <!-- Statistics Cards -->
-                <div class="col-6 col-md-3">
-                    <div class="card bg-primary text-white">
-                        <div class="card-body text-center">
-                            <i class="bi bi-ticket-perforated fs-1"></i>
-                            <h4 id="total-tickets">0</h4>
-                            <small>Total Tickets</small>
-                        </div>
+        <div class="container-fluid">
+            <!-- Quick Stats -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon bg-primary">
+                        <i class="bi bi-ticket-perforated"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-tickets">0</h3>
+                        <p>Total Tickets</p>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="card bg-warning text-white">
-                        <div class="card-body text-center">
-                            <i class="bi bi-clock-history fs-1"></i>
-                            <h4 id="open-tickets">0</h4>
-                            <small>Open Tickets</small>
-                        </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-warning">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="open-tickets">0</h3>
+                        <p>Open</p>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="card bg-info text-white">
-                        <div class="card-body text-center">
-                            <i class="bi bi-arrow-clockwise fs-1"></i>
-                            <h4 id="progress-tickets">0</h4>
-                            <small>In Progress</small>
-                        </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-info">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="progress-tickets">0</h3>
+                        <p>In Progress</p>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="card bg-success text-white">
-                        <div class="card-body text-center">
-                            <i class="bi bi-check-circle fs-1"></i>
-                            <h4 id="resolved-tickets">0</h4>
-                            <small>Resolved</small>
-                        </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-success">
+                        <i class="bi bi-check-circle"></i>
                     </div>
+                    <div class="stat-info">
+                        <h3 id="resolved-tickets">0</h3>
+                        <p>Resolved</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="section-header">
+                <h2>Quick Actions</h2>
+            </div>
+            <div class="action-grid">
+                <div class="action-card" onclick="showPage('create')">
+                    <div class="action-icon">
+                        <i class="bi bi-plus-circle"></i>
+                    </div>
+                    <h4>New Ticket</h4>
+                    <p>Create support request</p>
+                </div>
+                <div class="action-card" onclick="showPage('tickets')">
+                    <div class="action-icon">
+                        <i class="bi bi-list-task"></i>
+                    </div>
+                    <h4>My Tickets</h4>
+                    <p>View all tickets</p>
                 </div>
             </div>
 
@@ -240,6 +242,39 @@
         </div>
     </div>
 
+    <!-- Orders Page -->
+    <div id="orders-page" class="page">
+        <div class="container-fluid">
+            <div class="section-header">
+                <h2>Recent Orders</h2>
+            </div>
+            <div class="orders-list">
+                <div class="order-item">
+                    <div class="order-header">
+                        <div class="order-id">#ORD-001</div>
+                        <div class="order-status status-resolved">Completed</div>
+                    </div>
+                    <div class="order-title">Website Bug Fix</div>
+                    <div class="order-meta">
+                        <small><i class="bi bi-calendar"></i> Nov 10, 2025</small>
+                        <small><i class="bi bi-currency-dollar"></i> $150</small>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-header">
+                        <div class="order-id">#ORD-002</div>
+                        <div class="order-status status-in-progress">In Progress</div>
+                    </div>
+                    <div class="order-title">Mobile App Development</div>
+                    <div class="order-meta">
+                        <small><i class="bi bi-calendar"></i> Nov 8, 2025</small>
+                        <small><i class="bi bi-currency-dollar"></i> $2500</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Profile Page -->
     <div id="profile-page" class="page">
         <div class="container-fluid py-3">
@@ -328,24 +363,28 @@
         </div>
     </div>
 
-    <!-- Bottom Navigation for Mobile -->
-    <nav class="navbar navbar-light bg-light fixed-bottom d-lg-none">
-        <div class="container-fluid justify-content-around">
-            <a href="#" class="nav-link text-center" onclick="showPage('dashboard')">
-                <i class="bi bi-house-door fs-5"></i>
-                <small class="d-block">Home</small>
+    <!-- Modern Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-item active" onclick="showPage('dashboard')">
+                <i class="bi bi-house-door"></i>
+                <span>Home</span>
             </a>
-            <a href="#" class="nav-link text-center" onclick="showPage('tickets')">
-                <i class="bi bi-list-task fs-5"></i>
-                <small class="d-block">Tickets</small>
+            <a href="#" class="nav-item" onclick="showPage('tickets')">
+                <i class="bi bi-list-task"></i>
+                <span>Tickets</span>
             </a>
-            <a href="#" class="nav-link text-center" onclick="showPage('create')">
-                <i class="bi bi-plus-circle fs-5"></i>
-                <small class="d-block">Create</small>
+            <a href="#" class="nav-item nav-create" onclick="showPage('create')">
+                <i class="bi bi-plus"></i>
+                <span>Create</span>
             </a>
-            <a href="#" class="nav-link text-center" onclick="showPage('profile')">
-                <i class="bi bi-person-circle fs-5"></i>
-                <small class="d-block">Profile</small>
+            <a href="#" class="nav-item" onclick="showPage('orders')">
+                <i class="bi bi-clipboard-check"></i>
+                <span>Orders</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showPage('profile')">
+                <i class="bi bi-person-circle"></i>
+                <span>Profile</span>
             </a>
         </div>
     </nav>
