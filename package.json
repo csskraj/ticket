@@ -1,0 +1,35 @@
+{
+  "name": "mobile-ticketing-app",
+  "version": "1.0.0",
+  "description": "A mobile-first ticketing application built with Bootstrap 5 and vanilla JavaScript",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'No build step required for static site'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "ticketing",
+    "mobile-app",
+    "pwa",
+    "bootstrap",
+    "javascript",
+    "support-system"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/mobile-ticketing-app#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/mobile-ticketing-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/mobile-ticketing-app/issues"
+  },
+  "devDependencies": {},
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

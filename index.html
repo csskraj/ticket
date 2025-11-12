@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TicketApp">
+    
+    <!-- Force mobile app appearance -->
+    <style>
+        /* Force mobile layout by default */
+        @media (min-width: 768px) {
+            body {
+                max-width: 414px;
+                margin: 0 auto;
+                background: #000;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+            
+            .app-container {
+                background: #f8f9fa;
+                border-radius: 20px;
+                overflow: hidden;
+                box-shadow: 0 0 30px rgba(0,0,0,0.5);
+                min-height: calc(100vh - 40px);
+            }
+        }
+    </style>
+    <title>Ticketing Tool - Mobile App</title>
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
+    <!-- Bootstrap CSS (Local) -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons (Local) -->
+    <link href="assets/css/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0d6efd">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+    <div class="app-container">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" onclick="showPage('dashboard')">
+                <i class="bi bi-ticket-perforated me-2"></i>
+                TicketApp
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('dashboard')">
+                            <i class="bi bi-house-door"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('tickets')">
+                            <i class="bi bi-list-task"></i> Tickets
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('create')">
+                            <i class="bi bi-plus-circle"></i> Create
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('profile')">
+                            <i class="bi bi-person-circle"></i> Profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Page -->
+    <div id="dashboard-page" class="page active">
+        <div class="container-fluid py-3">
+            <div class="row g-3">
+                <!-- Statistics Cards -->
+                <div class="col-6 col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center">
+                            <i class="bi bi-ticket-perforated fs-1"></i>
+                            <h4 id="total-tickets">0</h4>
+                            <small>Total Tickets</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body text-center">
+                            <i class="bi bi-clock-history fs-1"></i>
+                            <h4 id="open-tickets">0</h4>
+                            <small>Open Tickets</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body text-center">
+                            <i class="bi bi-arrow-clockwise fs-1"></i>
+                            <h4 id="progress-tickets">0</h4>
+                            <small>In Progress</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center">
+                            <i class="bi bi-check-circle fs-1"></i>
+                            <h4 id="resolved-tickets">0</h4>
+                            <small>Resolved</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Tickets -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Recent Tickets</h5>
+                            <button class="btn btn-primary btn-sm" onclick="showPage('create')">
+                                <i class="bi bi-plus"></i> New Ticket
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="recent-tickets-list">
+                                <div class="text-center text-muted py-3">
+                                    <i class="bi bi-inbox fs-1"></i>
+                                    <p>No tickets found. Create your first ticket!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tickets List Page -->
+    <div id="tickets-page" class="page">
+        <div class="container-fluid py-3">
+            <!-- Search and Filter -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-2">
+                                <div class="col-12 col-md-6">
+                                    <input type="text" class="form-control" placeholder="Search tickets..." id="search-input">
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <select class="form-select" id="status-filter">
+                                        <option value="">All Status</option>
+                                        <option value="open">Open</option>
+                                        <option value="in-progress">In Progress</option>
+                                        <option value="resolved">Resolved</option>
+                                        <option value="closed">Closed</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <select class="form-select" id="priority-filter">
+                                        <option value="">All Priority</option>
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                        <option value="critical">Critical</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tickets List -->
+            <div id="tickets-list">
+                <!-- Tickets will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Ticket Page -->
+    <div id="create-page" class="page">
+        <div class="container-fluid py-3">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Create New Ticket</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="create-ticket-form">
+                                <div class="mb-3">
+                                    <label for="ticket-title" class="form-label">Title *</label>
+                                    <input type="text" class="form-control" id="ticket-title" required>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="ticket-category" class="form-label">Category *</label>
+                                        <select class="form-select" id="ticket-category" required>
+                                            <option value="">Select Category</option>
+                                            <option value="technical">Technical</option>
+                                            <option value="billing">Billing</option>
+                                            <option value="general">General</option>
+                                            <option value="feature">Feature Request</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="ticket-priority" class="form-label">Priority *</label>
+                                        <select class="form-select" id="ticket-priority" required>
+                                            <option value="">Select Priority</option>
+                                            <option value="low">Low</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="high">High</option>
+                                            <option value="critical">Critical</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="ticket-description" class="form-label">Description *</label>
+                                    <textarea class="form-control" id="ticket-description" rows="4" required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="ticket-attachment" class="form-label">Attachment (Optional)</label>
+                                    <input type="file" class="form-control" id="ticket-attachment" accept="image/*,.pdf,.doc,.docx">
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="bi bi-plus-circle"></i> Create Ticket
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="showPage('dashboard')">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile-page" class="page">
+        <div class="container-fluid py-3">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">User Profile</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="profile-form">
+                                <div class="text-center mb-4">
+                                    <div class="profile-avatar">
+                                        <i class="bi bi-person-circle" style="font-size: 80px;"></i>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="user-name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="user-name" value="John Doe">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="user-email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="user-email" value="john.doe@example.com">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="user-phone" class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" id="user-phone" value="+1 234 567 8900">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="user-department" class="form-label">Department</label>
+                                    <select class="form-select" id="user-department">
+                                        <option value="it">IT</option>
+                                        <option value="hr">HR</option>
+                                        <option value="finance">Finance</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-check-circle"></i> Update Profile
+                                    </button>
+                                </div>
+                            </form>
+
+                            <hr class="my-4">
+
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-info w-100" onclick="exportTickets()">
+                                        <i class="bi bi-download"></i> Export Data
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-outline-danger w-100" onclick="clearAllData()">
+                                        <i class="bi bi-trash"></i> Clear Data
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket Detail Modal -->
+    <div class="modal fade" id="ticketDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen-sm-down modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ticketDetailTitle">Ticket Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="ticket-detail-content">
+                        <!-- Ticket details will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation for Mobile -->
+    <nav class="navbar navbar-light bg-light fixed-bottom d-lg-none">
+        <div class="container-fluid justify-content-around">
+            <a href="#" class="nav-link text-center" onclick="showPage('dashboard')">
+                <i class="bi bi-house-door fs-5"></i>
+                <small class="d-block">Home</small>
+            </a>
+            <a href="#" class="nav-link text-center" onclick="showPage('tickets')">
+                <i class="bi bi-list-task fs-5"></i>
+                <small class="d-block">Tickets</small>
+            </a>
+            <a href="#" class="nav-link text-center" onclick="showPage('create')">
+                <i class="bi bi-plus-circle fs-5"></i>
+                <small class="d-block">Create</small>
+            </a>
+            <a href="#" class="nav-link text-center" onclick="showPage('profile')">
+                <i class="bi bi-person-circle fs-5"></i>
+                <small class="d-block">Profile</small>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Local) -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/app.js"></script>
+    </div> <!-- Close app-container -->
+</body>
+</html>
